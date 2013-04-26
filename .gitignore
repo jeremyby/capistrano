@@ -7,4 +7,5 @@ pkg
 *.sh
 .DS_Store
 .bundle/*
+.rbx
 Gemfile.lock
