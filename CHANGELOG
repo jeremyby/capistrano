@@ -1,7 +1,27 @@
-## 2.14.1 (tentative) / January 10 2013
+## 2.15.3 / April 25 2012
 
+* For deploy:cleanup, use try_sudo with rm command. (@joshstaiger)
+* Restore maintenance.rhtml (@chulkilee)
+* Fixes GH-434, If branches is an array of array, iterate them separately. (@gnufied)
+
+A big "thank you" to the people who've pushed really amazing patches to the
+2.15.x branch so soon after it's release. 2.15.0 was just too huge to go out
+bug free.
+
+## 2.15.2 / April 24 2013
+
+* Fixed a bug with asset_paths (String vs. Array). (@joeycarmello)
+
+## 2.15.1 / April 23 2013
+
+* Support for Rails 4 (and other) randomised asset manifest names. (@jimryan)
+
+## 2.15.0 / April 23 2013
+
+* New varaible :shared_assets_prefix to allow people to host somewhere other
+  than `/assets/`. Default is `assets`.
 * Bring back web:enable and web:disable tasks. Sincerely apologies to all affected
-  removing these was one of the most glaring mistakes we've made on this projec
+  removing these was one of the most glaring mistakes we've made on this project
   and I feel personally responsible.
 * Makes :git_shallow_clone work with branches (@cannikin)
 * Avoid removing required assets (@bosko)

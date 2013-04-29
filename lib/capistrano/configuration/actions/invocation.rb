@@ -163,10 +163,11 @@ module Capistrano
 
           if tree.branches.any? || tree.fallback
             _, servers = filter_servers(options)
-            branches = servers.map{|server| tree.branches_for(server)}.compact
+            branches = branches_for_servers(tree,servers)
             case branches.size
             when 0
               branches = tree.branches.dup + [tree.fallback]
+              branches.compact!
               case branches.size
               when 1
                 logger.debug "no servers for #{branches.first}"
@@ -178,7 +179,7 @@ module Capistrano
               logger.debug "executing #{branches.first}" unless options[:silent]
             else
               logger.debug "executing multiple commands in parallel"
-              branches.each{ |branch| logger.trace "-> #{branch.to_s(true)}" }
+              branches.each {|branch| logger.trace "-> #{branch.to_s(true)}" }
             end
           else
             raise ArgumentError, "attempt to execute without specifying a command"
@@ -311,6 +312,17 @@ module Capistrano
               exit(-1)
           end
         end
+
+        private
+        def branches_for_servers(tree,servers)
+          servers.inject([]) do |branches,server|
+            if server_branches = tree.branches_for(server)
+              branches += server_branches
+            end
+            branches
+          end
+        end
+
       end
     end
   end

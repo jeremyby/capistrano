@@ -294,8 +294,8 @@ namespace :deploy do
       stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
       asset_paths = fetch(:public_children, %w(images stylesheets javascripts)).
         map { |p| "#{latest_release}/public/#{p}" }.
-        map { |p| p.shellescape }.join(" ")
-      run("find #{asset_paths} -exec touch -t #{stamp} -- {} ';'; true",
+        map { |p| p.shellescape }
+      run("find #{asset_paths.join(" ")} -exec touch -t #{stamp} -- {} ';'; true",
           :env => { "TZ" => "UTC" }) if asset_paths.any?
     end
   end
@@ -462,7 +462,7 @@ namespace :deploy do
   DESC
   task :cleanup, :except => { :no_release => true } do
     count = fetch(:keep_releases, 5).to_i
-    try_sudo "ls -1dt #{releases_path}/* | tail -n +#{count + 1} | xargs rm -rf"
+    try_sudo "ls -1dt #{releases_path}/* | tail -n +#{count + 1} | #{try_sudo} xargs rm -rf"
   end
 
   desc <<-DESC
